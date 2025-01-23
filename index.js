@@ -17,7 +17,7 @@ app.listen(PORT, () => {
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "P@ss4SQl",
+  password: "Rickriordan@7",
   database: "jobify",
 });
 
@@ -32,7 +32,7 @@ db.connect((err) => {
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 // GET ALL
 app.get("/banks", (req, res) => {
-  db.query("SELECT * FROM banks", (err, results) => {
+  db.query("SELECT * FROM projects", (err, results) => {
     if (err) {
       console.error("Error fetching items:", err);
       res.status(500).json({ error: "Internal server error" });
@@ -44,7 +44,7 @@ app.get("/banks", (req, res) => {
 
 app.get("/banks/:id", (req, res) => {
   const itemId = req.params.id;
-  db.query("SELECT * FROM banks WHERE id=?", itemId, (err, results) => {
+  db.query("SELECT * FROM projects WHERE PJID=?", itemId, (err, results) => {
     if (err) {
       console.error("Error fetching items:", err);
       res.status(500).json({ error: "Internal server error" });
@@ -54,115 +54,3 @@ app.get("/banks/:id", (req, res) => {
   });
 });
 
-app.post("/banks", (req, res) => {
-  const { name, balance } = req.body;
-  db.query(
-    "INSERT INTO banks(bname,balance) VALUES(?,?)",
-    [name, balance],
-    (err, results) => {
-      if (err) {
-        console.error("Error fetching items:", err);
-        res.status(500).json({ error: "Internal server error" });
-        return;
-      }
-      res.json(results);
-    }
-  );
-  //   res.json(req.value);
-});
-
-// Credit Cards
-
-app.get("/ccards", (req, res) => {
-  db.query("SELECT * FROM credit_cards", (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-app.get("/ccards/:id", (req, res) => {
-  const itemId = req.params.id;
-  db.query("SELECT * FROM credit_cards WHERE id=?", itemId, (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-app.get("/transactions", (req, res) => {
-  db.query("SELECT * FROM transactions", (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-app.get("/transactions/:id", (req, res) => {
-  const itemId = req.params.id;
-  db.query("SELECT * FROM transactions WHERE id=?", itemId, (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-// Source
-app.get("/srcs", (req, res) => {
-  db.query("SELECT * FROM source", (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-app.get("/srcs/:id", (req, res) => {
-  const itemId = req.params.id;
-  db.query("SELECT * FROM source WHERE s_id=?", itemId, (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-// Categories
-app.get("/cats", (req, res) => {
-  db.query("SELECT * FROM categories", (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
-
-app.get("/cats/:id", (req, res) => {
-  const itemId = req.params.id;
-  db.query("SELECT * FROM categories WHERE c_id=?", itemId, (err, results) => {
-    if (err) {
-      console.error("Error fetching items:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.json(results);
-  });
-});
